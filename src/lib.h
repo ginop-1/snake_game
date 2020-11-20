@@ -1,6 +1,5 @@
 #pragma once
 
-
 const int MAX_LENGHT {20};
 const int MAX_HEIGHT {20};
 
@@ -12,13 +11,7 @@ enum class Direction
     DOWN
 };
 
-inline bool gameOver {false};
-
 inline Direction dir(Direction::UP);
-
-inline char Matrix[MAX_LENGHT][MAX_HEIGHT];
-inline int x = MAX_LENGHT/2;
-inline int y = MAX_HEIGHT/2;
 
 // int snakeX[200], snakeY[200]; SHIT
 const char fruitChar = 'A';
@@ -30,10 +23,10 @@ const char nullBox = ' ';
 
 // Frontend
 void Clear();           // Clear screen
-void printGraphics();   // Print Matrix
+void printGraphics(char Matrix[][MAX_HEIGHT]);   // Print Matrix
 
 // Backend
-void Setup();           // Initialize Matrix
-void generateFruit();   // Generate random position for fruit
-void Input();           // Read input from user
-void elaborate();       // Game logic
+void Setup(int &x, int &y, char Matrix[][MAX_HEIGHT]);                          // Initialize Matrix
+void generateFruit(int &x, int &y, char Matrix[][MAX_HEIGHT]);                  // Generate random position for fruit
+void Input(int &x, int &y, char Matrix[][MAX_HEIGHT]);                          // Read input from user
+void elaborate(int &x, int &y, char Matrix[][MAX_HEIGHT], bool &gameover);       // Game logic

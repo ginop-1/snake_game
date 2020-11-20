@@ -10,7 +10,7 @@ void Clear()
 #endif
 }
 
-void printGraphics()
+void printGraphics(char Matrix[][MAX_HEIGHT])
 {
     Clear();
     for (auto i = 0; i < MAX_LENGHT; i++)

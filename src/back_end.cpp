@@ -2,14 +2,19 @@
 #include "conio.h"
 #include <iostream>
 
-void generateFruit()
+void generateFruit(int &x, int &y, char Matrix[][MAX_HEIGHT])
 {
-    int fruitx = 1 + (std::rand() % (MAX_LENGHT - 3)); 
-    int fruitY = 1 + (std::rand() % (MAX_HEIGHT - 3));
+    int fruitx;
+    int fruitY;
+    do
+    {
+        fruitx = 1 + (std::rand() % (MAX_LENGHT - 3));
+        fruitY = 1 + (std::rand() % (MAX_HEIGHT - 3));
+    } while (Matrix[fruitx][fruitY] != nullBox);
     Matrix[fruitx][fruitY] = fruitChar;
 }
 
-void Setup()
+void Setup(int &x, int &y, char Matrix[][MAX_HEIGHT])
 {
     for (auto i = 0; i < MAX_LENGHT; i++)
     {
@@ -21,11 +26,11 @@ void Setup()
                 Matrix[i][j] = nullBox;
         }
     }
-    generateFruit();
+    generateFruit(x, y, Matrix);
     Matrix[x][y] = snakeChar;
 }
 
-void Input()
+void Input(int &x, int &y, char Matrix[][MAX_HEIGHT])
 {
     char input;
     if (kbhit())
@@ -44,18 +49,20 @@ void Input()
         case 'd':
             dir = Direction::RIGHT;
             break;
+        /* DEBUG ONLY
         case 'q':
             gameOver = true;
             break;
+        */
         default:
             break;
         }
     }
 }
 
-void elaborate()
+void elaborate(int &x, int &y, char Matrix[][MAX_HEIGHT], bool &gameover)
 {
-    static int snakeSize {1};
+    static int snakeSize{1};
     static int snakeX[200];
     static int snakeY[200];
     snakeX[0] = x;
@@ -83,15 +90,15 @@ void elaborate()
     default:
         break;
     }
-    if (Matrix[x][y] == borders || Matrix[x][y] == snakeChar)   // wall or self-eat
-        gameOver = true;
-    if (Matrix[x][y] == fruitChar)                              // eat a fruit
+    if (Matrix[x][y] == borders || Matrix[x][y] == snakeChar) // wall or self-eat
+        gameover = true;
+    if (Matrix[x][y] == fruitChar) // eat a fruit
     {
         Matrix[x][y] = snakeChar;
-        generateFruit();
+        generateFruit(x, y, Matrix);
         snakeSize++;
     }
-    else                                                        // normal movement
+    else // normal movement
     {
         Matrix[x][y] = snakeChar;
         Matrix[snakeX[snakeSize]][snakeY[snakeSize]] = nullBox;
